@@ -1,0 +1,16 @@
+<ion-content>
+<br><br>
+<ion-button size="small" fill="outline" style="float:right;margin-right: 5px" routerLink="/city" routerDirection="forward">Skip</ion-button><br><br>
+
+<ion-slides pager="true" [options]="slideOptsTwo" (ionSlideDidChange)="slideChanged()" #slides>
+
+<ion-slide *ngFor="let welcome of data;let i = index">
+<img src="{{ welcome.img }}"/>
+<div [innerHTML]="welcome.title" style="padding: 10px 10px"></div><br>
+</ion-slide>
+
+</ion-slides>
+<br><br>
+<ion-button expand="block" size="large" *ngIf="getStart" routerLink="/city" routerDirection="forward" class="start" mode="ios">Get Started</ion-button>
+
+</ion-content>

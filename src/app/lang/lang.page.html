@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar color="primary">
+  <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ text.language }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding="true" *ngIf="text">
+
+<ion-searchbar (ionInput)="search($event)" mode="ios" color="light"></ion-searchbar>
+
+<ion-list>
+<ion-radio-group>
+
+<ion-item *ngFor="let l of data">
+<ion-label><img src="{{ l.img }}" style="width: 30px"> {{ l.name }}</ion-label>
+<ion-radio slot="start" value="{{ l.id }}" (ionSelect)="setLang(l.id,l.type)" [checked]="l.id == lid"></ion-radio>
+
+</ion-item>
+</ion-radio-group>
+</ion-list>
+<br>
+<ion-button expand="block" size="large" type="button" [disabled]="lid == 'none'" (click)="update()" mode="ios">Update</ion-button>
+
+</ion-content>

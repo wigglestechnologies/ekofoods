@@ -1,0 +1,107 @@
+<ion-header no-border>
+<ion-toolbar color="primary">
+<ion-buttons slot="start">
+<ion-back-button></ion-back-button>
+</ion-buttons>
+
+<ion-buttons slot="end" *ngIf="data">{{ data.currency }}{{ data.total }} &nbsp;</ion-buttons>
+
+</ion-toolbar>
+</ion-header>
+
+<ion-content mode="ios">
+
+
+<div style="width:100%;background-color: #f44336;height: 100px;color:white">
+&nbsp;
+
+</div>
+
+
+<ion-card mode="ios" style="margin-top: -25%;background-color: white;width: 98%;margin-left: 1%" class="welcome-card">
+
+<ion-list id="skeleton" *ngIf="!data">
+<ion-list-header>
+<ion-skeleton-text animated style="width: 40%"></ion-skeleton-text>
+</ion-list-header>
+
+<ion-item *ngFor="let fake of fakeData">
+<ion-thumbnail slot="start">
+<ion-skeleton-text></ion-skeleton-text>
+</ion-thumbnail>
+<ion-label>
+<h3>
+<ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+</h3>
+<p>
+<ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+</p>
+<p>
+<ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+</p>
+</ion-label>
+</ion-item>
+
+</ion-list>
+
+<ion-card-header *ngIf="data">
+<ion-card-title style="font-size: 25px" *ngIf="data.total > 0">{{ text.cart_heading }}</ion-card-title>
+<ion-card-title style="font-size: 25px" *ngIf="data.total == 0">{{ text.cart_empty }}</ion-card-title>
+<ion-card-subtitle *ngIf="data.total > 0">{{ data.store.name }}</ion-card-subtitle>
+
+<img src="https://image.flaticon.com/icons/svg/2038/2038854.svg" style="width: 30%;margin-left: 32%;margin-top: 20%" *ngIf="data.total == 0">
+
+<ion-button size="small" fill="outline" style="margin-left: 26%;margin-top: 15%" routerLink="/home" routerDirection="root" *ngIf="data.total == 0">{{ text.cart_start_order }}</ion-button>
+
+</ion-card-header>
+
+
+<ion-card-content *ngIf="data">
+
+<ion-row class="border_bottom" *ngFor="let item of data.data">
+
+<ion-col size="3"><img src="{{ item.img }}"></ion-col>
+<ion-col size="9" style="padding: 0px 10px"><b>{{ item.item }}</b>
+
+<br><small>{{ text.cart_price }} : {{ data.currency }}{{ item.price }} | {{ text.cart_qty }} : {{ item.qty }} {{ item.qtyName }}</small>
+
+<span *ngIf="item.addon.length > 0">
+
+<small *ngFor="let addon of item.addon"><br>{{ addon.name }} - {{ data.currency }}{{ addon.price }}</small>	
+
+</span>
+
+<br>
+<ion-icon name="remove-circle-outline" style="font-size: 26px" color="danger" (click)="updateCart(item.id,0)"></ion-icon>
+<ion-icon name="add-circle-outline" style="font-size: 26px;margin-left: 15px;margin-top: 10px" color="dark" (click)="updateCart(item.id,1)"></ion-icon>
+
+</ion-col>
+
+</ion-row>
+
+</ion-card-content>
+
+</ion-card>
+
+<ion-row class="ion-padding fontSize" *ngIf="data && data.total > 0">
+
+<ion-col size="8" class="border_bottom_only">{{ text.cart_total }}</ion-col>
+<ion-col size="4" class="border_bottom_only">{{ data.currency }}{{ data.item_total }}</ion-col>
+
+<ion-col size="8" class="border_bottom_only" *ngIf="data.d_charges > 0">{{ text.cart_delivery }}</ion-col>
+<ion-col size="4" class="border_bottom_only" *ngIf="data.d_charges > 0">{{ data.currency }}{{ data.d_charges }}</ion-col>
+
+<ion-col size="8" class="border_bottom_only" *ngIf="data.discount > 0">{{ text.cart_discount }}</ion-col>
+<ion-col size="4" class="border_bottom_only" *ngIf="data.discount > 0">{{ data.currency }}{{ data.discount }}</ion-col>
+
+<ion-col size="8" class="border_bottom_only" *ngIf="data.discount == 0">{{ text.cart_coupon }}</ion-col>
+<ion-col size="4" class="border_bottom_only" *ngIf="data.discount == 0"><a (click)="coupen()">{{ text.cart_apply }}</a></ion-col>
+
+<ion-col size="8" class="border_bottom_only">{{ text.cart_payable }}</ion-col>
+<ion-col size="4" class="border_bottom_only"><b>{{ data.currency }}{{ data.total }}</b></ion-col>
+</ion-row>
+
+<div class="ion-padding" *ngIf="data && data.total > 0">
+<ion-button expand="block" size="large" type="button" mode="ios" routerLink="/checkout" routerDirection="forward">{{ text.cart_button }}</ion-button><br>
+</div>
+</ion-content>

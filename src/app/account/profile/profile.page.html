@@ -1,0 +1,82 @@
+<ion-header no-border>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+<ion-back-button></ion-back-button>
+</ion-buttons>
+    <ion-title>
+      {{ text.profile_title }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content *ngIf="data">
+
+<ion-card mode="ios" class="welcome-card">
+
+<ion-card-header>
+
+<ion-card-title>{{ text.profile_heading }}</ion-card-title>
+
+</ion-card-header>
+
+<ion-list lines="none">
+<ion-list-header>
+<ion-label>{{ text.profile_welcome }} <b>{{ data.name }}</b></ion-label>
+</ion-list-header>
+
+<ion-item routerLink="/order" routerDirection="forward">
+<ion-icon slot="start" color="medium" name="cart"></ion-icon>
+<ion-label>{{ text.profile_order_history }}</ion-label>
+</ion-item>
+
+<ion-item (click)="takeAction(1)">
+<ion-icon slot="start" color="medium" name="build"></ion-icon>
+<ion-label>{{ text.profile_setting }}</ion-label>
+</ion-item>
+<ion-item (click)="logout()">
+<ion-icon slot="start" color="medium" name="log-out"></ion-icon>
+<ion-label>{{ text.profile_logout }}</ion-label>
+</ion-item>
+</ion-list>
+
+</ion-card>
+
+<!--Personal Information-->
+
+<ion-card mode="ios" *ngIf="action == 1">
+<form #form="ngForm" (ngSubmit)="update(form.value)">
+
+<ion-card-header>
+
+<ion-card-subtitle>Update Your Account Setting</ion-card-subtitle>
+
+</ion-card-header>
+
+<ion-item>
+  <ion-label position="floating">Your Name</ion-label>
+  <ion-input type="text" name="name" [(ngModel)]="data.name" required></ion-input>
+</ion-item>
+
+<ion-item>
+  <ion-label position="floating">Email</ion-label>
+  <ion-input type="email" name="email" [(ngModel)]="data.email" required></ion-input>
+</ion-item>
+
+<ion-item>
+  <ion-label position="floating">Phone</ion-label>
+  <ion-input type="tel" name="phone" [(ngModel)]="data.phone" required></ion-input>
+</ion-item>
+
+<ion-item>
+  <ion-label position="floating">Change Password</ion-label>
+  <ion-input type="password" name="password" ngModel></ion-input>
+</ion-item>
+<br>
+
+<ion-button expand="block" mode="ios" type="submit" [disabled]="!form" style="width: 90%;margin-left: 5%">Update</ion-button>
+</form>
+
+</ion-card>
+
+</ion-content>

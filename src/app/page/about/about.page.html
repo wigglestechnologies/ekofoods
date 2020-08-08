@@ -1,0 +1,26 @@
+<ion-header no-border>
+  <ion-toolbar color="primary">
+
+  	<ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>
+     {{ text.about_title }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="data">
+
+
+<ion-card mode="ios">
+
+<img src="{{ data.about_img }}" width="100%" *ngIf="data.about_img">
+
+<ion-card-content>
+<span [innerHTML]="data.about_us" style="text-align: justify;"></span>
+
+</ion-card-content>
+</ion-card>
+</ion-content>

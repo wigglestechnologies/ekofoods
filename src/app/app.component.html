@@ -1,0 +1,76 @@
+<ion-app dir="{{ dir }}">
+  <ion-split-pane>
+    <ion-menu swipe-gesture="false" type="push" side="end">
+      <ion-header no-border>
+        <ion-toolbar color="success">
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+      <div style="background-color: #10DC60;">
+    <img src="assets/bg.png" class="menu_img"><br><br>
+      </div>
+    
+
+        <ion-list lines="none">
+       
+        <ion-list-header>
+          {{ text.menu_title }}
+        </ion-list-header>
+
+           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
+            <ion-item [routerDirection]="'forward'" [routerLink]="[p.url]">
+              <ion-icon slot="start" [name]="p.icon"></ion-icon>
+              <ion-label>
+                {{p.title}}
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-list-header>
+          {{ text.menu_page_title }}
+        </ion-list-header>
+
+          <ion-menu-toggle auto-hide="false">
+          <ion-item routerLink="/about" routerDirection="forward">
+              <ion-icon slot="start" name="arrow-round-forward" ></ion-icon>
+              <ion-label> {{ text.about_title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false">
+          <ion-item routerLink="/how" routerDirection="forward">
+              <ion-icon slot="start" name="arrow-round-forward"></ion-icon>
+              <ion-label>{{ text.how_title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false">
+          <ion-item routerLink="/faq" routerDirection="forward">
+              <ion-icon slot="start" name="arrow-round-forward"></ion-icon>
+              <ion-label>{{ text.faq_title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle auto-hide="false">
+          <ion-item routerLink="/contact" routerDirection="forward">
+              <ion-icon slot="start" name="arrow-round-forward"></ion-icon>
+              <ion-label>{{ text.contact_title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
+        </ion-list>
+
+      </ion-content>
+      <ion-footer *ngIf="admin">
+      <a href="{{ admin.fb }}" target="_blank" *ngIf="admin.fb"><ion-icon name="logo-facebook" style="font-size: 25px;padding: 10px 10px;color:#3F51B5"></ion-icon></a>
+
+      <a href="{{ admin.insta }}" target="_blank" *ngIf="admin.insta"><ion-icon name="logo-instagram" style="font-size: 25px;padding: 10px 10px;color:#e91e63"></ion-icon></a>
+
+      <a href="{{ admin.youtube }}" target="_blank" *ngIf="admin.youtube"><ion-icon name="logo-youtube" style="font-size: 25px;padding: 10px 10px;color:#f44336"></ion-icon></a>
+
+      <a href="{{ admin.twitter }}" target="_blank" *ngIf="admin.twitter"><ion-icon name="logo-twitter" style="font-size: 25px;padding: 10px 10px;color:#03a9f4"></ion-icon></a>
+      </ion-footer>
+    </ion-menu>
+    <ion-router-outlet main dir="{{ dir }}"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>

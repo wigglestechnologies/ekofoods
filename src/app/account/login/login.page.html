@@ -1,0 +1,40 @@
+<ion-header no-border>
+  <ion-toolbar color="primary">
+<ion-buttons slot="start" (click)="goBck()">
+    <ion-icon name="arrow-back" style="font-size: 24px"></ion-icon>
+    </ion-buttons>
+    <ion-title>
+     {{ text.login_title }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <img src="assets/bg.png" style="width: 30%; height: 30; margin-left: 32%"><br>
+
+<h5 style="font-size: 23px;font-weight: 700">{{ text.login_heading }}</h5><br>
+
+<form #form="ngForm" (ngSubmit)="login(form.value)">
+
+
+<ion-item>
+  <ion-label position="floating"><ion-icon name="mail"></ion-icon> Email</ion-label>
+  <ion-input type="email" ngModel required name="email"></ion-input>
+</ion-item>
+
+<ion-item>
+  <ion-label position="floating"><ion-icon name="lock"></ion-icon> Password</ion-label>
+  <ion-input type="password" ngModel required name="password"></ion-input>
+</ion-item>
+
+<br><br>
+<ion-button expand="block" mode="ios" type="submit">{{ text.login_button }}</ion-button>
+<p align="center">{{ text.login_forgot_password }} <a routerLink="/forgot" routerDirection="forward">{{ text.login_reset_password }}</a></p>
+</form>
+
+<br><br>
+<ion-button fill="outline" expand="block" mode="ios" routerLink="/signup" routerDirection="forward">{{ text.login_signup }}</ion-button>
+
+
+</ion-content>

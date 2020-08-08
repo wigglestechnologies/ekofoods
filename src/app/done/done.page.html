@@ -1,0 +1,86 @@
+<ion-header no-border>
+<ion-toolbar color="primary">
+<ion-buttons slot="start" routerLink="/home" routerDirection="root">
+    <ion-icon name="home" style="font-size: 29px"></ion-icon>
+    </ion-buttons>
+
+<ion-buttons slot="end"><ion-button fill="outline" mode="ios" size="small" routerLink="/order" routerDirection="forward">View Order Detail</ion-button></ion-buttons>
+
+</ion-toolbar>
+</ion-header>
+
+<ion-content mode="ios">
+
+
+<div style="width:100%;background-color: #f44336;height: 80px;color:white">
+&nbsp;
+
+</div>
+
+<ion-card mode="ios" style="margin-top: -15%;background-color: white;width: 98%;margin-left: 1%" class="welcome-card">
+
+<ion-card-header>
+
+<ion-card-title>{{ text.confirm_title }}</ion-card-title>
+<ion-card-subtitle><ion-icon name="restaurant"></ion-icon> {{ data.store }}</ion-card-subtitle>
+
+</ion-card-header>
+
+</ion-card>
+
+<div class="ion-padding">
+
+<p style="font-size: 12px" *ngIf="status == 0">Order Placed Successfully. Waiting for restaurant confirmation</p>
+<p style="font-size: 12px" *ngIf="status == 1">Order Confirmed. Your food is being prepared.</p>
+<p style="font-size: 12px" *ngIf="status == 3">A delivery partner has been assigned to your order.</p>
+<p style="font-size: 12px" *ngIf="status == 4">Your order is one the way</p>
+
+
+<div class="map-wrapper" *ngIf="status == 4">
+<div id="map_center">
+<img src="assets/d.png"/>
+</div>
+<div #map id="map"></div>
+
+<p>{{address}}</p>
+
+</div>
+  
+<ion-progress-bar value="{{ progress }}" buffer="0.5"></ion-progress-bar>
+</div>
+
+<ion-card mode="ios" class="welcome-card" style="width: 98%;margin-left: 1%">
+
+<ion-card-header>
+
+<ion-card-title>Order Status</ion-card-title>
+
+</ion-card-header>
+
+<ion-list lines="none">
+
+<ion-item routerLink="/order" routerDirection="forward">
+<ion-icon slot="start" color="primary" name="cart"></ion-icon>
+<ion-label>Order Placed</ion-label>
+</ion-item>
+
+<ion-item>
+<ion-icon slot="start" [color]="getColor(1)" name="checkmark-circle"></ion-icon>
+<ion-label [class.light]="status < 1">Order Confirmed</ion-label>
+</ion-item>
+
+<ion-item>
+<ion-icon slot="start" [color]="getColor(3)" name="link"></ion-icon>
+<ion-label [class.light]="status < 3">Assigned Delivery Partner</ion-label>
+</ion-item>
+
+<ion-item>
+<ion-icon slot="start" [color]="getColor(4)" name="bus"></ion-icon>
+<ion-label [class.light]="status < 4">Order picked up</ion-label>
+</ion-item>
+
+</ion-list>
+
+</ion-card>
+
+</ion-content>

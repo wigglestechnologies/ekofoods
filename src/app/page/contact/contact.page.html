@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar color="primary">
+
+  	<ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>
+    {{ text.contact_title }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="data">
+
+
+<ion-card mode="ios">
+
+<ion-card-content>
+<span [innerHTML]="data.contact_us" style="text-align: justify;"></span>
+
+</ion-card-content>
+</ion-card>
+
+</ion-content>

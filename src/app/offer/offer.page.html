@@ -1,0 +1,26 @@
+<ion-header no-border>
+<ion-toolbar>
+<ion-title>{{ text.coupon_title }} <ion-button size="small" fill="outline" style="float:right" (click)="closeModal()"><ion-icon name="close" style="font-size: 25px"></ion-icon></ion-button></ion-title>
+</ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="data">
+
+<ion-list *ngIf="data.length > 0">
+
+<ion-list-header>
+{{ text.coupon_heading }}
+</ion-list-header>
+
+  <ion-item *ngFor="let offer of data">
+    <ion-label>{{ offer.code }}<br><small style="font-size: 11px;color: gray">{{ offer.desc }}</small>
+
+    <ion-button size="small" style="float: right;margin-top: -17px" (click)="applyNow(offer.id)">{{ text.coupon_button }}</ion-button>
+
+    </ion-label>
+  </ion-item>
+  </ion-list>
+
+<p *ngIf="data.length == 0" style="text-align: center;padding: 10px 10px;font-size: 11px;color:gray;line-height: 2">Opps! No Discount Coupen Avilable<br>Right Now For This Store</p>
+
+</ion-content>

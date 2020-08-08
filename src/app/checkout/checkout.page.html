@@ -1,0 +1,154 @@
+<ion-header>
+  <ion-toolbar color="primary">
+  <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ text.place_title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="data">
+
+<ion-card mode="ios">
+
+<ion-card-header>
+
+<ion-card-title>Select Order Type</ion-card-title>
+
+</ion-card-header>
+
+<ion-card-content>
+
+<ion-list>
+
+<ion-item>
+<ion-label>Home Delivery</ion-label>
+<ion-radio slot="start" value="1" (ionSelect)="setType(1)" [checked]="otype == 1"></ion-radio>
+</ion-item>
+
+<ion-item>
+<ion-label>Self Pickup</ion-label>
+<ion-radio slot="start" value="2" (ionSelect)="setType(2)" [checked]="otype == 2"></ion-radio>
+</ion-item>
+
+</ion-list>
+
+</ion-card-content>
+
+</ion-card>
+
+<ion-card mode="ios" *ngIf="otype == 1">
+
+<ion-card-header>
+
+<ion-card-title>{{ text.place_delivery_heading }}</ion-card-title>
+
+</ion-card-header>
+
+<ion-card-content>
+
+<ion-list *ngIf="data.address.length > 0">
+
+<ion-item *ngFor="let a of data.address">
+<ion-label>{{ a.address }}</ion-label>
+<ion-radio slot="start" value="{{ a.id }}" (ionSelect)="setAddress(a.id)" [checked]="a.id == address"></ion-radio>
+</ion-item>
+
+<br>
+<ion-button size="small" fill="outline" routerLink="/address" routerDirection="forward">{{ text.place_add_address }}</ion-button>
+
+
+</ion-list>
+
+<ion-row *ngIf="data.address.length == 0">
+
+<ion-col size="8" style="font-size: 12px">{{ text.place_address_text }}</ion-col>
+<ion-col size="4"><ion-button size="small" fill="outline" routerLink="/address" routerDirection="forward">{{ text.place_add_address }}</ion-button></ion-col>
+
+</ion-row>
+
+</ion-card-content>
+
+</ion-card>
+
+
+<ion-card mode="ios">
+
+<ion-card-header>
+
+<ion-card-title>{{ text.place_payment_heading }}</ion-card-title>
+
+</ion-card-header>
+
+<ion-card-content>
+
+<ion-item style="font-size: 13px">
+<ion-label><img src="https://image.flaticon.com/icons/svg/760/760503.svg" style="width:30px"> Cash On Delivery</ion-label>
+<ion-radio slot="start" value="1" (ionSelect)="setPayment(1)" [checked]="payment == 1"></ion-radio>
+</ion-item>
+
+<!--<ion-item style="font-size: 13px" *ngIf="paypal_id">
+<ion-label><img src="assets/paypal.png" style="width: 90px"> <span style="margin-top: -40px">Pay Via Paypal</span></ion-label>
+<ion-radio slot="start" value="2" (ionSelect)="setPayment(2)" [checked]="payment == 2"></ion-radio>
+</ion-item>-->
+
+<ion-item style="font-size: 13px" *ngIf="stripe_id">
+<ion-label><img src="assets/stripe.png" style="width: 150px"> <span style="margin-top: -40px">Pay Via Stripe</span></ion-label>
+<ion-radio slot="start" value="2" (ionSelect)="setPayment(3)" [checked]="payment == 3"></ion-radio>
+</ion-item>
+
+<div *ngIf="stripeView">
+
+<p>Please Provide Following Details</p>
+
+<ion-row>
+
+<ion-col size="12">
+<ion-item>
+  <ion-label position="floating">Card Number</ion-label>
+  <ion-input type="tel" [(ngModel)]="card_no" name="card_no"></ion-input>
+</ion-item>
+</ion-col>
+
+<ion-col size="6">
+<ion-item>
+  <ion-label position="floating">Exp Month</ion-label>
+  <ion-input type="tel" [(ngModel)]="exp_month" name="exp_month"></ion-input>
+</ion-item>
+</ion-col>
+
+<ion-col size="6">
+<ion-item>
+  <ion-label position="floating">Exp Year</ion-label>
+  <ion-input type="tel" [(ngModel)]="exp_year" name="exp_year"></ion-input>
+</ion-item>
+</ion-col>
+
+<ion-col size="12">
+<ion-item>
+  <ion-label position="floating">CVV</ion-label>
+  <ion-input type="tel" [(ngModel)]="cvv" name="cvv"></ion-input>
+</ion-item>
+</ion-col>
+
+</ion-row>
+
+</div>
+
+</ion-card-content>
+
+</ion-card>
+
+<div class="ion-padding">
+
+<ion-item>
+<ion-textarea placeholder="Any instruction for food...e.g extra spicy" [(ngModel)]="notes" name="notes"></ion-textarea>
+</ion-item>
+<br>
+<ion-button expand="block" mode="ios" type="button" [disabled]="!formVal()" (click)="makeOrder()">{{ text.place_order_button }}</ion-button>
+
+</div>
+
+<br>
+
+</ion-content>

@@ -1,0 +1,45 @@
+<ion-header no-border>
+<ion-toolbar>
+<ion-title>{{ text.item_addon_title }} <ion-button size="small" fill="outline" style="float:right" (click)="closeModal()"><ion-icon name="close" style="color:red;font-size: 25px"></ion-icon></ion-button></ion-title>
+</ion-toolbar>
+</ion-header>
+
+<ion-content mode="ios">
+
+<ion-list>
+<ion-list-header>
+{{ text.item_size_heading }}
+</ion-list-header>
+<ion-radio-group>
+<ion-item *ngIf="item.s_price">
+<ion-label>{{ text.item_small }} <span style="float: right">{{ currency }}{{ item.s_price }}</span></ion-label>
+<ion-radio slot="start" color="secondary" value="small" (ionSelect)="selectItem(1,item.s_price)"></ion-radio>
+</ion-item>
+
+<ion-item *ngIf="item.m_price">
+<ion-label>{{ text.item_m }} <span style="float: right">{{ currency }}{{ item.m_price }}</span></ion-label>
+<ion-radio slot="start" color="secondary" value="m" (ionSelect)="selectItem(2,item.m_price)"></ion-radio>
+</ion-item>
+
+<ion-item *ngIf="item.l_price">
+<ion-label>{{ text.item_large }} <span style="float: right">{{ currency }}{{ item.l_price }}</span></ion-label>
+<ion-radio slot="start" color="secondary" value="l" (ionSelect)="selectItem(3,item.l_price)"></ion-radio>
+</ion-item>
+</ion-radio-group>
+</ion-list>
+
+<ion-list *ngIf="item.addon.length > 0">
+<ion-list-header>
+{{ text.item_addon_heading }}
+</ion-list-header>
+
+<ion-item *ngFor="let addon of item.addon">
+<ion-label>{{ addon.name }} <span style="float: right">{{ currency }}{{ addon.price }}</span></ion-label>
+<ion-checkbox color="secondary" slot="start" (ionChange)="addonSelect(addon.id)"></ion-checkbox>
+</ion-item>
+
+</ion-list>
+
+<ion-button expand="block" size="large" mode="ios" style="width: 80%;margin-left:10%" [disabled]="!itemID" (click)="addToCart()">{{ text.item_addon_button }}</ion-button>
+
+</ion-content>

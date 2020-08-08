@@ -1,0 +1,79 @@
+<ion-header no-border>
+<ion-toolbar color="primary">
+<ion-buttons slot="start">
+<ion-back-button></ion-back-button>
+</ion-buttons>
+
+<ion-buttons slot="end" routerLink="/info" routerDirection="forward">{{ text.item_view_info }}</ion-buttons>
+
+</ion-toolbar>
+</ion-header>
+
+<ion-content mode="ios">
+
+<ion-fab horizontal="end" vertical="bottom" slot="fixed" *ngIf="count > 0" routerLink="/cart" routerDirection="forward">
+<ion-fab-button color="danger" edge="true">
+<ion-icon name="cart"></ion-icon> {{ count }}
+</ion-fab-button>
+</ion-fab>
+
+<div style="width:100%;background-color: #f44336;height: 100px">
+&nbsp;
+</div>
+
+<ion-card mode="ios" style="margin-top: -25%;background-color: white;width: 98%;margin-left: 1%" class="welcome-card">
+<ion-card-header>
+<ion-card-title style="font-size: 25px">{{ data.title }}<ion-badge color="primary" style="float: right">{{ data.rating }}<br></ion-badge></ion-card-title>
+<ion-card-subtitle>{{ data.type }}</ion-card-subtitle>
+
+</ion-card-header>
+
+
+<ion-card-content>
+
+	<ion-item lines="none" style="margin-left: -20px">
+	<ion-label style="color:gray;font-size: 14px">{{ text.item_veg_only }}</ion-label>
+	<ion-toggle slot="start" name="nonveg" color="secondary" (ionChange)="vegOnly()"></ion-toggle>
+	</ion-item>
+
+<span *ngFor="let category of data.items">
+<h1 style="margin-top: 20px">{{ category.cate_name }}</h1>
+
+<span *ngFor="let item of category.items">
+<ion-row style="margin-top: 20px;padding: 0px" *ngIf="!veg && item.nonveg == 1 || item.nonveg == 0">
+<ion-col size="3"><img src="{{ item.img }}"></ion-col>
+<ion-col size="5" style="padding: 2px 10px"><b>{{ item.name }}</b><br>
+
+<small style="color: gray;font-size: 10px">{{ data.currency }}{{ item.price }}</small><br>
+<small style="color: gray;font-size: 10px" *ngIf="item.description">{{ item.description }}</small>
+
+</ion-col>
+<ion-col size="3" style="text-align: right">
+
+<span *ngIf="!hasCart(item.id)">
+<ion-button size="small" fill="outline" *ngIf="item.count == 1 && item.addon.length == 0" (click)="addToCart(item.id,item.price,0)">{{ text.item_add_button }}</ion-button>
+<ion-button size="small" fill="outline" *ngIf="item.count > 1 || item.addon.length > 0" (click)="showOption(item,data.currency)">{{ text.item_add_button }}</ion-button>
+</span>
+
+<div class="quantitybtn" *ngIf="hasCart(item.id)">
+    <button type="button" class="sign plus" data-quantity="plus" data-field="quantity" (click)="updateCart(item.id)"> - </button>
+    <input class="quantityinput" type="text" name="qty" value="{{ hasCart(item.id) }}" readonly="readonly">
+
+    <button type="button" class="sign minus" data-quantity="minus" data-field="quantity" *ngIf="item.count == 1" (click)="addToCart(item.id,item.price,0)">+</button>
+
+    <button type="button" class="sign minus" data-quantity="minus" data-field="quantity" *ngIf="item.count > 1" (click)="showOption(item,data.currency)">+</button>
+</div>
+
+</ion-col>
+</ion-row>
+</span>
+</span>
+
+
+
+</ion-card-content>
+
+</ion-card>
+
+
+</ion-content>

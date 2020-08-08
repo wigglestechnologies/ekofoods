@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar color="success">
+  <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="text">{{ text.city_title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding="true" *ngIf="text">
+
+<ion-searchbar (ionInput)="search($event)" mode="ios" color="light" placeholder="{{ text.city_search }}"></ion-searchbar>
+
+<ion-list>
+<ion-radio-group>
+<ion-list-header>
+<ion-label>{{ text.city_heading }}</ion-label>
+</ion-list-header>
+
+<ion-item *ngFor="let city of data">
+<ion-label>{{ city.name }}</ion-label>
+<ion-radio color="success" slot="start" value="{{ city.id }}" (ionSelect)="setCity(city.id,city.name)" [checked]="city.id == cityID"></ion-radio>
+
+</ion-item>
+</ion-radio-group>
+</ion-list>
+<br>
+<ion-button color="success" expand="block" size="large" type="button" [disabled]="!cityID" (click)="city()" mode="ios">{{ text.city_button }}</ion-button>
+
+</ion-content>

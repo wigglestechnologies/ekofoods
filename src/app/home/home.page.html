@@ -1,0 +1,183 @@
+<ion-header no-border>
+<ion-toolbar color="success">
+<ion-buttons slot="end" >
+<ion-menu-button></ion-menu-button>
+</ion-buttons>
+<ion-title routerLink="/city" routerDirection="forward">
+<ion-icon name="pin"></ion-icon> {{ city_name }}
+</ion-title>
+</ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="text">
+
+<ion-fab horizontal="end" vertical="bottom" slot="fixed" *ngIf="count > 0" routerLink="/cart" routerDirection="forward">
+<ion-fab-button color="success" edge="true">
+<ion-icon name="cart"></ion-icon> {{ count }}
+</ion-fab-button>
+</ion-fab>
+
+<ion-fab horizontal="end" vertical="bottom" slot="fixed" *ngIf="order > 0" routerLink="/done" routerDirection="forward">
+<ion-fab-button color="success" edge="true">
+<ion-icon name="pin"></ion-icon>
+</ion-fab-button>
+</ion-fab>
+
+<ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)"><ion-refresher-content></ion-refresher-content></ion-refresher>
+<div style="width:100%;background-color: #10DC60;margin-top: -10px">
+<ion-searchbar (ionInput)="search($event)" placeholder="{{ text.home_search }}" mode="ios" color="light" (ionClear)="ngOnInit()" [(ngModel)]="searchQuery"></ion-searchbar><br><br><br>
+</div>
+
+<ion-card class="welcome-card" style="background-color:white;width: 98%;margin-left: 1%;margin-top: -12%;" mode="ios">
+
+<ion-list id="skeleton" *ngIf="!data">
+<ion-list-header>
+<ion-skeleton-text animated style="width: 40%"></ion-skeleton-text>
+</ion-list-header>
+
+<ion-item *ngFor="let fake of fakeData">
+<ion-thumbnail slot="start">
+<ion-skeleton-text></ion-skeleton-text>
+</ion-thumbnail>
+<ion-label>
+<h3>
+<ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+</h3>
+<p>
+<ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+</p>
+<p>
+<ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+</p>
+</ion-label>
+</ion-item>
+
+</ion-list>
+
+
+
+<ion-card-content *ngIf="data">
+
+<h2 *ngIf="hasSearch">Searching for '{{ hasSearch }}'</h2>
+
+<ion-card *ngIf="data && data.store.length == 0" mode="ios" style="padding: 20px 20px;">
+
+<h2>Opps! Nothing Found <ion-button color="tertiary" size="small" mode="ios" (click)="ngOnInit()">Go Back</ion-button></h2>
+
+</ion-card>
+
+<ion-slides pager="false" [options]="BannerOption" #slideone autoplay="3000" *ngIf="!hasSearch">
+<ion-slide *ngFor="let offer of data.banner" (click)="bannerLink(offer)"><img src="{{ offer.img }}" width="98%" style="border-radius: 4%"></ion-slide>
+</ion-slides>
+<ion-slides pager="false" [options]="SearchOption" #slideone style="margin-left: -10px;margin-top: 5px" *ngIf="!hasSearch">
+
+<ion-slide (click)="dataFilter(1)"><ion-card style="padding: 5px 5px" mode="ios"><img src="assets/discount.png" style="width: 40% !important;margin-left: 30%"><small style="font-size: 9px">{{ text.home_offer }}</small></ion-card></ion-slide>
+
+<ion-slide (click)="dataFilter(2)"><ion-card style="padding: 5px 5px" mode="ios"><img src="assets/delivery.png" style="width: 40% !important;margin-left: 30%">
+
+<small style="font-size: 9px" *ngIf="filterPress != 2">{{ text.home_fast_delivery }}</small>
+<ion-spinner name="dots" *ngIf="filterPress == 2" color="primary"></ion-spinner>
+</ion-card></ion-slide>
+
+<ion-slide (click)="dataFilter(3)"><ion-card style="padding: 5px 5px" mode="ios"><img src="assets/trend.png" style="width: 40% !important;margin-left: 30%">
+
+<small style="font-size: 9px" *ngIf="filterPress != 3">{{ text.home_trending }}</small>
+<ion-spinner name="dots" *ngIf="filterPress == 3" color="primary"></ion-spinner>
+
+</ion-card></ion-slide>
+
+<ion-slide (click)="dataFilter(4)"><ion-card style="padding: 5px 5px" mode="ios"><img src="assets/alarm.png" style="width: 40% !important;margin-left: 30%">
+
+<small style="font-size: 9px" *ngIf="filterPress != 4">{{ text.home_new_arrival }}</small>
+<ion-spinner name="dots" *ngIf="filterPress == 4" color="primary"></ion-spinner>
+
+</ion-card></ion-slide>
+
+<ion-slide (click)="dataFilter(5)"><ion-card style="padding: 5px 5px" mode="ios"><img src="assets/rating.png" style="width: 40% !important;margin-left: 30%">
+
+<small style="font-size: 9px" *ngIf="filterPress != 5">{{ text.home_by_rating }}</small>
+<ion-spinner name="dots" *ngIf="filterPress == 5" color="primary"></ion-spinner>
+
+</ion-card></ion-slide>
+
+</ion-slides>
+
+<ion-backdrop tappable="false" *ngIf="filterPress"></ion-backdrop>
+
+<ion-row style="margin-bottom: 10px" *ngFor="let store of data.store;let i = index" (click)="itemPage(store)">
+<ion-col size="4"><img src="{{ store.img }}" style="border-radius: 10%"></ion-col>
+<ion-col size="7" style="padding: 2px 10px"><b>{{ store.title }}</b><br>
+
+<small style="color: gray;font-size: 10px">{{ store.type }}</small><br>
+<small style="color: gray;font-size: 10px">{{ store.currency }}{{ store.person_cost }} {{ text.home_per_person }} | {{ store.delivery_time }} mins</small><br>
+<small style="color: red;font-size: 10px" *ngIf="store.discount">{{ store.discount }}<br></small>
+<small style="color: red;font-size: 10px" *ngIf="!store.open">{{ text.close }}</small>
+
+</ion-col>
+<ion-col size="1"><ion-badge color="primary">{{ store.rating }}</ion-badge></ion-col>
+
+<ion-col size="12" *ngIf="i == 3 && data.trending.length > 0">
+<p>Trending in {{ city_name }}</p>
+<ion-slides pager="false" [options]="TrendOption" #slideone autoplay="3000" class="trend">
+<ion-slide *ngFor="let trend of data.trending" (click)="itemPage(trend)">
+
+<ion-card style="padding: 2px 2px;font-size: 12px;width: 100%;margin-left: 2px" mode="ios">
+<ion-row>
+<ion-col size="12"><img src="{{ trend.img }}" width="100%"></ion-col>
+<ion-col size="10"><b>{{ trend.title }}</b></ion-col>
+<ion-col size="2"><ion-badge color="primary">{{ trend.rating }}</ion-badge></ion-col>
+</ion-row>
+</ion-card>
+
+</ion-slide>
+</ion-slides>
+
+</ion-col>
+
+<ion-col size="12" *ngIf="i == 8 && data.bottom.length > 0">
+
+<ion-slides pager="false" [options]="MiddleBannerOption" #slideone autoplay="1000">
+<ion-slide *ngFor="let bottom of data.bottom" (click)="bannerLink(bottom)"><img src="{{ bottom.img }}"></ion-slide>
+</ion-slides>
+
+</ion-col>
+
+</ion-row>
+
+</ion-card-content>
+</ion-card>
+
+
+</ion-content>
+
+<ion-footer *ngIf="text">
+<ion-toolbar mode="ios">
+
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    
+   <ion-tab-button tab="speakers" (click)="ngOnInit()">
+      <ion-icon name="home"></ion-icon>
+      <ion-label>{{ text.home_footer_name }}</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="map" (click)="nearBy()">
+      <ion-icon name="pin"></ion-icon>
+      <ion-label>{{ text.home_nearest }}</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="schedule" routerLink="/cart" routerDirection="forward">
+      <ion-icon name="basket"></ion-icon>
+      <ion-label>{{ text.home_cart }}</ion-label>
+      <ion-badge *ngIf="count > 0">{{ count }}</ion-badge>
+    </ion-tab-button>
+
+    <ion-tab-button tab="about" routerLink="/profile" routerDirection="forward">
+      <ion-icon name="person"></ion-icon>
+      <ion-label>{{ text.home_profile }}</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
+
+</ion-toolbar>
+</ion-footer>
